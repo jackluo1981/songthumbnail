@@ -114,11 +114,11 @@ updateSong(song, songMeta) {
 
 ## 加分项。如何突破itunes api每分钟20次请求的限制，优化程序
 
-- 分布式设计，程序可以在多台服务器上跑，突破单ip的限制。这里可以考虑lambda的微服务，有可能每个lambda实例都能分配到一个ip。在真正实现之前，先做简单的proof of concept尝试方案是否可行，实能能同时起多个lambda服务，每个服务得到不同ip，给itunes发请求而不被封。
+- 分布式设计，程序可以在多台服务器上跑，突破单ip的限制。这里可以考虑lambda的微服务，有可能每个lambda实例都能分配到一个ip。在真正实现之前，先做简单的proof of concept尝试方案是否可行，是否能同时起多个lambda服务，每个服务得到不同ip，给itunes发请求而不被封。
 - 因为分布式，每个实例不能再跑完整的列表，否则每个实例就在做重复的事情。可以考虑手动分配列表，比如一个实例上跑1000条，起5个实例。
 - 因为跑在云上，所以图片文件和列表文件最好都放在s3上
 - 更好的设计是列表文件放到数据库里。实例每次访问数据库，只拿一条未被处理的歌曲，访问itunes处理歌曲，然后更新列表条目。这样更灵活，也不需要手动维护每个实例上的列表。但这样要考虑并发问题。
 - 数据库并发主要有两个概念. transaction和isolation level. 随便google能找到大量资料。
 - https://blog.csdn.net/zhangzeyuaaa/article/details/46400419
 - https://en.wikipedia.org/wiki/Isolation_(database_systems)
-- 还可以考虑不让client直接访问客户端，而是再做一个控制层api，client只通过这个控制层来拿任务以及更新列表状态
+- 还可以考虑不让client直接访问数据库，而是再做一个控制层api，client只通过这个控制层来拿任务以及更新列表状态
