@@ -17,7 +17,8 @@
 
 不考虑优化，程序跑在单机上。拿到歌曲列表后，转换为附带格外信息的列表
 
-原始歌曲列表格式:
+原始歌曲列表格式。特殊字符分割的文本文件，一般称为csv文件。
+多数默认是以,号分割，但用什么都可以。程序都可以简单处理，而且导入很多软件比如word，都支持自定义分隔符:
 
 ```javascript
 name||artist
@@ -120,4 +121,4 @@ updateSong(song, songMeta) {
 - 数据库并发主要有两个概念. transaction和isolation level. 随便google能找到大量资料。
 - https://blog.csdn.net/zhangzeyuaaa/article/details/46400419
 - https://en.wikipedia.org/wiki/Isolation_(database_systems)
-
+- 还可以考虑不让client直接访问客户端，而是再做一个控制层api，client只通过这个控制层来拿任务以及更新列表状态
